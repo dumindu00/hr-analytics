@@ -1,0 +1,54 @@
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from app.routes import employee, predict, auth
+from app.retrain_scheduler import start_scheduler
+from contextlib import asynccontextmanager
+from app.database import Base, engine  # <-- import Base and engine
+from app.models.user import User        # <-- import User model
+from app.models.employee import MonthlyPerformance  # <-- import Employee model
+# Lifespan handler
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup code
+    start_scheduler()  # start the retraining scheduler
+
+    # ✅ Create tables if they do not exist
+    Base.metadata.create_all(bind=engine)
+
+    yield
+    # Shutdown code (if needed)
+    print("Application shutting down")
+
+# Create FastAPI app with lifespan
+app = FastAPI(title="HR Analytics System", lifespan=lifespan)
+
+# CORS configuration for React frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=[
+        "Authorization",
+        "Content-Type",
+        "Accept",
+        "Origin",
+        "X-Requested-With",
+    ],
+    expose_headers=["Authorization"],
+)
+
+
+# Include routers
+app.include_router(employee.router)
+app.include_router(predict.router)
+app.include_router(auth.router)
+
+
+# Root endpoint
+@app.get("/")
+def root():
+    return {"status": "HR Analytics Backend Running"}
