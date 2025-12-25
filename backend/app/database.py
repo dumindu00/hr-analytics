@@ -1,18 +1,3 @@
-# import os
-
-# from sqlalchemy import create_engine
-# from sqlalchemy.orm import sessionmaker, declarative_base
-
-# load_dotenv()
-
-
-
-# DATABASE_URL = os.getenv("DATABASE_URL")
-# # "mysql+pymysql://hr_user:hrpassword123@localhost/hr_analytics"
-
-# engine = create_engine(DATABASE_URL, echo=True)
-# SessionLocal = sessionmaker(bind=engine)
-# Base = declarative_base()
 
 import os
 from sqlalchemy import create_engine
