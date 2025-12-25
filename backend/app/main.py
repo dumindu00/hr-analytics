@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from app.database import Base, engine  # <-- import Base and engine
 from app.models.user import User        # <-- import User model
 from app.models.employee import MonthlyPerformance  # <-- import Employee model
+import os
 # Lifespan handler
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -23,11 +24,12 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="HR Analytics System", lifespan=lifespan)
 
 # CORS configuration for React frontend
+
+frontend_url = os.getenv("FRONTEND_URL")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
+        frontend_url
     ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
