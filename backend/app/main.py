@@ -35,8 +35,6 @@ app.add_middleware(
         frontend_url
     ],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
