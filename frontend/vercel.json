@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://hr-analytics-production.up.railway.app/$1"
+    }
+  ]
+}
