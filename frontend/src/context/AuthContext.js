@@ -9,6 +9,12 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
 
+
+  const [loading, setLoading] = useState(true);
+
+
+
+
   // On mount: restore user and token from localStorage
   useEffect(() => {
     try {
@@ -27,7 +33,10 @@ export const AuthProvider = ({ children }) => {
       console.error("Failed to restore auth state", err);
       localStorage.removeItem("user");
       localStorage.removeItem("token");
-    }
+    } 
+      finally {
+        setLoading(false)
+      }
   }, []);
 
   const login = async (username, password) => {
