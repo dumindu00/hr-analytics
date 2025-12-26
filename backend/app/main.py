@@ -25,7 +25,10 @@ app = FastAPI(title="HR Analytics System", lifespan=lifespan)
 
 # CORS configuration for React frontend
 
-frontend_url = os.getenv("FRONTEND_URL")
+frontend_url = "https://hr-analytics-hgkvu159f-dumindu.vercel.app"
+
+# os.getenv("FRONTEND_URL")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -33,14 +36,9 @@ app.add_middleware(
     ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=[
-        "Authorization",
-        "Content-Type",
-        "Accept",
-        "Origin",
-        "X-Requested-With",
-    ],
-    expose_headers=["Authorization"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
